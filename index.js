@@ -6,20 +6,6 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
-var whitelist = [
-  'https://jac-my-weatherclient.herokuapp.com',
-  'http://localhost:3000',
-];
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -27,6 +13,13 @@ app.use(
     extended: true,
   })
 );
+
+app.all('*', (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 app.get('/', (req, res) => {
   res.json('hi');
