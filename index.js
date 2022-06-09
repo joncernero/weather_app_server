@@ -6,7 +6,10 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
-var whitelist = ['https://jac-my-weatherclient.herokuapp.com/'];
+var whitelist = [
+  'https://jac-my-weatherclient.herokuapp.com',
+  'http://localhost:3000',
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
