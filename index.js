@@ -6,6 +6,17 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
+var whitelist = ['https://jac-my-weatherclient.herokuapp.com/'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -26,7 +37,7 @@ app.get('/getWeather/', async (req, res) => {
   res.json(data);
 });
 
-app.post('/postWeather', async (req, res) => {
+app.post('/postWeather', cors(corsOptions), async (req, res) => {
   const response = await axios.post(
     `${APIURL}/data/2.5/onecall?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${process.env.REACT_APP_API_KEY}`
   );
