@@ -14,10 +14,10 @@ app.use(
   })
 );
 
-var whitelist = [
-  'https://jac-my-weatherclient.herokuapp.com',
-  'http://localhost:3000',
-];
+const domainsFromEnv = process.env.CORS_DOMAINS || '';
+
+var whitelist = domainsFromEnv.split(',').map((item) => item.trim());
+
 var corsOptions = {
   origin: function (origin, callback) {
     if (!origin || whitelist.indexOf(origin) !== -1) {
