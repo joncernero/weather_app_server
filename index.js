@@ -7,7 +7,7 @@ const app = express();
 const APIURL = 'https://api.openweathermap.org';
 
 var allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', process.env.FRONTENDURL);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header(
     'Access-Control-Allow-Headers',
