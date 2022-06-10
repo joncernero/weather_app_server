@@ -7,7 +7,7 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
-app.use(cors({ origin: /\.herokuapp\.com$/ }));
+app.use(cors({ origin: /\.herokuapp\.com$/, credentials: true }));
 app.use(express.json());
 app.use(
   express.urlencoded({
