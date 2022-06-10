@@ -51,7 +51,8 @@ app.get('/getWeather', async (req, res) => {
   res.json(data);
 });
 
-app.post('/postWeather', async (req, res) => {
+app.options('/postWeather', cors());
+app.post('/postWeather', cors(), async (req, res) => {
   const response = await axios.post(
     `${APIURL}/data/2.5/onecall?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${process.env.REACT_APP_API_KEY}`
   );
