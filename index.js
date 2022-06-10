@@ -16,7 +16,7 @@ app.use(
 
 const issue2options = {
   origin: true,
-  allowHeaders: 'Content-Type',
+  allowHeaders: ['Origin', 'Content-Type', 'application/json'],
   method: ['POST'],
   credentials: false,
   preflightContinue: true,
