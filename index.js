@@ -15,9 +15,10 @@ app.use(
 );
 
 const issue2options = {
-  origin: '*',
+  origin: true,
+  allowHeaders: 'Content-Type',
   method: ['POST'],
-  credentials: true,
+  credentials: false,
   preflightContinue: true,
   maxAge: 3600,
 };
