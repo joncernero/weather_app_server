@@ -2,35 +2,27 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { default: axios } = require('axios');
+const { application } = require('express');
 const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
-// var allowCrossDomain = function (req, res, next) {
-//   res.header('Access-Control-Allow-Origin', process.env.FRONTENDURL);
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Content-Type, Authorization, Content-Length, X-Requested-With'
-//   );
-//   next();
-// };
-
-var whitelist = [
+const whitelist = [
   'https://jac-my-weatherclient.herokuapp.com',
   'http://localhost:3000',
 ];
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true };
+  } else {
+    corsOptions = { origin: false };
+  }
+  callback(null, corsOptions);
 };
 
-app.options('*', cors());
+app.use(cors(corsOptionsDelegate));
 app.use(express.json());
 app.use(
   express.urlencoded({
