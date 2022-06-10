@@ -15,7 +15,7 @@ app.use(
 );
 
 const issue2options = {
-  origin: true,
+  origin: '*',
   method: ['POST'],
   credentials: true,
   preflightContinue: true,
