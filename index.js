@@ -6,28 +6,29 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
-app.use(cors(corsOptions));
+var allowCrossDomain = function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, Content-Length, X-Requested-With'
+  );
+
+  if ('OPTIONS' == req.method) {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+};
+
+app.use(allowCrossDomain);
+app.use(cors());
 app.use(express.json());
 app.use(
   express.urlencoded({
     extended: true,
   })
 );
-
-const domainsFromEnv = process.env.CORS_DOMAINS || '';
-
-var whitelist = domainsFromEnv.split(',').map((item) => item.trim());
-
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-};
 
 app.get('/', (req, res) => {
   res.json('hi');
