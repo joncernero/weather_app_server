@@ -30,8 +30,7 @@ var corsOptions = {
   },
 };
 
-// app.use(allowCrossDomain);
-app.use(cors(corsOptions));
+app.options('*', cors());
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -51,8 +50,7 @@ app.get('/getWeather', async (req, res) => {
   res.json(data);
 });
 
-app.options('/postWeather', cors());
-app.post('/postWeather', cors(), async (req, res) => {
+app.post('/postWeather', async (req, res) => {
   const response = await axios.post(
     `${APIURL}/data/2.5/onecall?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${process.env.REACT_APP_API_KEY}`
   );
