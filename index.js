@@ -13,12 +13,7 @@ var allowCrossDomain = function (req, res, next) {
     'Access-Control-Allow-Headers',
     'Content-Type, Authorization, Content-Length, X-Requested-With'
   );
-
-  if ('OPTIONS' == req.method) {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
+  next();
 };
 
 app.use(allowCrossDomain);
