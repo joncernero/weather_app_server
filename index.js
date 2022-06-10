@@ -6,18 +6,32 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
-var allowCrossDomain = function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', process.env.FRONTENDURL);
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Content-Type, Authorization, Content-Length, X-Requested-With'
-  );
-  next();
+// var allowCrossDomain = function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', process.env.FRONTENDURL);
+//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//   res.header(
+//     'Access-Control-Allow-Headers',
+//     'Content-Type, Authorization, Content-Length, X-Requested-With'
+//   );
+//   next();
+// };
+
+var whitelist = [
+  'https://jac-my-weatherclient.herokuapp.com',
+  'http://localhost:3000',
+];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
 };
 
-app.use(allowCrossDomain);
-app.use(cors());
+// app.use(allowCrossDomain);
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(
   express.urlencoded({
