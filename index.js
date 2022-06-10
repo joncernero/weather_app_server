@@ -9,10 +9,9 @@ const APIURL = 'https://api.openweathermap.org';
 
 app.use(
   cors({
-    origin: /\.herokuapp\.com$/,
-    credentials: true,
-    methods: ['POST'],
-    allowedHeaders: 'Content-Type',
+    origin: 'http://localhost:3000',
+    methods: ['GET, POST'],
+    preflightContinue: true,
   })
 );
 app.use(express.json());
