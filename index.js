@@ -7,6 +7,7 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
+app.use(cors({ origin: /\.herokuapp\.com$/ }));
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -14,15 +15,15 @@ app.use(
   })
 );
 
-const issue2options = {
-  origin: true,
-  method: ['POST'],
-  credentials: true,
-  maxAge: 3600,
-};
+// const issue2options = {
+//   origin: true,
+//   method: ['POST'],
+//   credentials: true,
+//   maxAge: 3600,
+// };
 
-app.options('/postWeather', cors(issue2options));
-app.post('/postWeather', cors(issue2options), async (req, res) => {
+// app.options('/postWeather', cors(issue2options));
+app.post('/postWeather', async (req, res) => {
   const response = await axios.post(
     `${APIURL}/data/2.5/onecall?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${process.env.REACT_APP_API_KEY}`
   );
