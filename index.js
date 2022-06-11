@@ -7,6 +7,8 @@ const app = express();
 
 const APIURL = 'https://api.openweathermap.org';
 
+app.use(cors());
+
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -14,19 +16,9 @@ app.use(
   })
 );
 
-const issue2options = {
-  origin: true,
-  allowHeaders: ['Origin', 'Content-Type', 'application/json'],
-  method: ['POST'],
-  credentials: false,
-  preflightContinue: true,
-  maxAge: 3600,
-};
-
-app.options('/postWeather', cors(issue2options));
-app.post('/postWeather', cors(issue2options), async (req, res) => {
-  const response = await axios.post(
-    `${APIURL}/data/2.5/onecall?lat=${req.body.latitude}&lon=${req.body.longitude}&appid=${process.env.REACT_APP_API_KEY}`
+app.get('/getWeather', async (req, res) => {
+  const response = await axios.get(
+    `${APIURL}/data/2.5/onecall?lat=${req.query.latitude}&lon=${req.query.longitude}&appid=${process.env.REACT_APP_API_KEY}`
   );
   const data = response.data;
   res.json(data);
