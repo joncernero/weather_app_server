@@ -20,7 +20,6 @@ app.get('/getWeather', cors(), async (req, res) => {
     `${APIURL}/data/2.5/onecall?lat=${req.query.latitude}&lon=${req.query.longitude}&appid=${process.env.REACT_APP_API_KEY}`,
     {
       method: 'GET',
-      mode: 'no-cors',
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
