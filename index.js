@@ -17,7 +17,17 @@ app.use(
 
 app.get('/getWeather', cors(), async (req, res) => {
   const response = await axios.get(
-    `${APIURL}/data/2.5/onecall?lat=${req.query.latitude}&lon=${req.query.longitude}&appid=${process.env.REACT_APP_API_KEY}`
+    `${APIURL}/data/2.5/onecall?lat=${req.query.latitude}&lon=${req.query.longitude}&appid=${process.env.REACT_APP_API_KEY}`,
+    {
+      method: 'GET',
+      mode: 'no-cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+      credentials: 'same-origin',
+    }
   );
   const data = response.data;
   res.json(data);
